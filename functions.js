@@ -6,7 +6,7 @@ can take values as input via parameters
 can output values via return value
 */
 var currentHealth = 50;
-var healAmount = 10;
+
 
 function heal() {
     currentHealth += healAmount;
@@ -23,8 +23,17 @@ var func = function heal() {
 }
 
 //FUNCTION PARAMETERS -just inputs
-function healTwo(healAmount) {
+function healTwo(healAmount = 10) {
     currentHealth += healAmount;
 }
 heal(10); // currentHealth = 60
 
+// function return statements
+var maxHealth = 100;
+
+function heal3(healAmount =10) {
+    var newHealth = currentHealth + healAmount;
+    currentHealth = newHealth > 100 ? maxHealth:newHealth;
+    return (currentHealth/maxHealth) * 100 // 90%
+    
+}
