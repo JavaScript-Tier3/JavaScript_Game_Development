@@ -35,5 +35,9 @@ function heal3(healAmount =10) {
     var newHealth = currentHealth + healAmount;
     currentHealth = newHealth > 100 ? maxHealth:newHealth;
     return (currentHealth/maxHealth) * 100 // 90%
-    
+
+}
+// abstract function to get a percentage
+function calculatePercent(dividend, divisor) {
+    return (dividend / divisor) * 100
 }
