@@ -20,8 +20,8 @@ if (keyPressed == "r") {
     xPos += 1;
 //concurrent if statements
 } else if (keyPressed == "l") { //if the first teest fails we test this line
-    if (xPos < endPos) {
-        xPos += 1;
+    if (xPos > endPos) {
+        xPos -= 1;
     }
     xPos -= 1;
 } else {
