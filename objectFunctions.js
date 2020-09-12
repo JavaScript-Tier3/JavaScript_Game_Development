@@ -5,7 +5,6 @@ function gameCharacter(name, xPos, health) {
     this.move =function(x) {
         this.xPos += x;
     }
-    this.class = "Human" //default value
 }
 
 
@@ -14,8 +13,21 @@ var name = gc1.name; //retriving
 gc1.health = 150;
 gc1.move(10);
 
+
 var gc2 = new gameCharacter("Zoe", 0, 100);
 
+gameCharacter.prototype.class = "Human";
+gc1.class = "not a human";
+gc2.class; // Human
+
+var heal = function(amount) {
+    this.health += amount;
+}
+
+gameCharacter.prototype.heal = heal;
+gc1.heal(5);
+gc2.heal(14);
+/*
 function petChar(name, race, legs) {
     this.name = name;
     this.race = race;
@@ -28,3 +40,4 @@ function petChar(name, race, legs) {
 
 var pc1 = new petChar("Ponkey", "Shizhu", 4);
 var petName = gc1.name;
+*/
