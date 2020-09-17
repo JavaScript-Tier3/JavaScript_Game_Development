@@ -21,7 +21,42 @@
         let screenWidth = 1000;
         let screenHeight = 500;
 
+        class GameCharacter {
+            constructor(x, y, width, height, color) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+            }
+        }
+
+        var rectangle = new GameCharacter (50, 50, 50, 50, "rgb(0, 0, 255)");
+
+        var myRectangles = new GameCharacter (50, 50, 50, 50, "rgb(255, 160, 122)");
+
+        var draw = function() {
+            ctx.clearRect(0, 0, screenWidth, screenHeight);
+
+            ctx.fillStyle = rectangle.color;
+            ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            
+            ctx.fillStyle = rectangle.color;
+            ctx.fillRect(rectangle.x + 200, rectangle.y, rectangle.width, rectangle.height);
+
+            ctx.fillStyle = myRectangles.color;
+            ctx.fillRect(myRectangles.x + 100, myRectangles.y + 100, myRectangles.width, myRectangles.height);
+
+            ctx.fillStyle = myRectangles.color;
+            ctx.fillRect(myRectangles.x + 400, myRectangles.y + 200, myRectangles.width, myRectangles.height);
+
+            ctx.fillStyle = myRectangles.color;
+            ctx.fillRect(myRectangles.x + 800, myRectangles.y + 300, myRectangles.width, myRectangles.height);
+
+
+        }
         var step = function() { //game loop -all the logic for the game
+            draw();
             window.requestAnimationFrame(step);
         }
 
