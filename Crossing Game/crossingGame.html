@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossing Game</title>
+    <style type="text/css">
+        canvas {
+            border: 2px solid grey;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1> Crossing Game</h1>
+    <canvas id='myCanvas' width='1000' height='500'></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+
+        let screenWidth = 1000;
+        let screenHeight = 500;
+
+        var step = function() { //game loop -all the logic for the game
+            window.requestAnimationFrame(step);
+        }
+
+        step();
+    </script>
+</body>
+</html>
