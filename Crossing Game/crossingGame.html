@@ -20,42 +20,50 @@
 
         let screenWidth = 1000;
         let screenHeight = 500;
+        let width = 50;
 
         class GameCharacter {
-            constructor(x, y, width, height, color) {
+            constructor(x, y, width, height, color, speed) {
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
                 this.color = color;
+                this.speed = speed;
+            }
+
+            moveVertically() {
+                if (this.y > screenHeight - 100 || this.y < 50) {
+                    this.speed = -this.speed;
+                }
+                this.y += this.speed;
+            }
+            
+            moveHorizontally() {
+                this.x += speed;
             }
         }
 
-        var rectangle = new GameCharacter (50, 50, 50, 50, "rgb(0, 0, 255)");
-
-        var myRectangles = new GameCharacter (50, 50, 50, 50, "rgb(255, 160, 122)");
+        var enemies = [
+            new GameCharacter(250, 50, width, width, "rgb(0, 0, 255)", 2),
+            new GameCharacter(450, screenHeight - 100, width, width, "rgb(0,0,255)", 2),
+            new GameCharacter(700, 50, width, width, "rgb(0,0,255)", 2),
+        ];
 
         var draw = function() {
             ctx.clearRect(0, 0, screenWidth, screenHeight);
 
-            ctx.fillStyle = rectangle.color;
-            ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-            
-            ctx.fillStyle = rectangle.color;
-            ctx.fillRect(rectangle.x + 200, rectangle.y, rectangle.width, rectangle.height);
-
-            ctx.fillStyle = myRectangles.color;
-            ctx.fillRect(myRectangles.x + 100, myRectangles.y + 100, myRectangles.width, myRectangles.height);
-
-            ctx.fillStyle = myRectangles.color;
-            ctx.fillRect(myRectangles.x + 400, myRectangles.y + 200, myRectangles.width, myRectangles.height);
-
-            ctx.fillStyle = myRectangles.color;
-            ctx.fillRect(myRectangles.x + 800, myRectangles.y + 300, myRectangles.width, myRectangles.height);
-
-
+            enemies.forEach(function(element) {
+                ctx.fillStyle = element.color;
+                ctx.fillRect(element.x, element.y, element.width, element.height);
+            });
         }
+
+        var update = function() {
+           enemies[0].moveVertically();        }
+
         var step = function() { //game loop -all the logic for the game
+            update();
             draw();
             window.requestAnimationFrame(step);
         }
