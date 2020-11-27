@@ -60,7 +60,10 @@
         }
 
         var update = function() {
-           enemies[0].moveVertically();        }
+            enemies.forEach(function(element) {
+                element.moveVertically();
+            })        
+        }
 
         var step = function() { //game loop -all the logic for the game
             update();
