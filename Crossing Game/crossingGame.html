@@ -21,6 +21,7 @@
         let screenWidth = 1000;
         let screenHeight = 500;
         let width = 50;
+        var isGameLive = true;
 
         class GameCharacter {
             constructor(x, y, width, height, color, speed) {
@@ -52,6 +53,8 @@
         ];
 
         var player = new GameCharacter(50, 255, width, width, "rgb(0, 255, 243", 0);
+
+        var goal = new GameCharacter(screenWidth - width, 200, width, 100, "rgb(0, 0, 0)", 2)
 
         document.onkeydown = function(event) {
             switch(event.key) {
@@ -85,25 +88,40 @@
 
             enemies.forEach(function(element) {
                 ctx.fillStyle = element.color;
-            ctx.fillRect(element.x, element.y, element.width, element.height);
+                ctx.fillRect(element.x, element.y, element.width, element.height);
             });
+
+            ctx.fillStyle = goal.color;
+            ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
         }
 
         var update = function() {
+            if (checkCollisions(player, goal)) {
+                endGameLogic("You win!");
+            }
             player.moveHorizontally();
 
             enemies.forEach(function(element) {
                 if (checkCollisions(player, element)) {
-                    aler("collision detected");
+                    endGameLogic("Game Over!");
                 }
                 element.moveVertically();
             })        
         }
 
+        var endGameLogic = function(text) {
+            isGameLive = false;
+            alert(text);
+            window.location = "";
+        }
+
         var step = function() { //game loop -all the logic for the game
             update();
             draw();
-            window.requestAnimationFrame(step);
+            
+            if (isGameLive) {
+                window.requestAnimationFrame(step);
+            }
         }
 
         step();
