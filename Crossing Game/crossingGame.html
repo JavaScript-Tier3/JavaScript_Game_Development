@@ -6,7 +6,7 @@
     <title>Crossing Game</title>
     <style type="text/css">
         canvas {
-            border: 2px solid grey;
+            border: 2px solid black;
             background-color: red;
         }
     </style>
@@ -22,6 +22,9 @@
         let screenHeight = 500;
         let width = 50;
         var isGameLive = true;
+
+        var isRightKeyPressed = false;
+        var isLeftKeyPressed = false;
 
         class GameCharacter {
             constructor(x, y, width, height, color, speed) {
@@ -43,6 +46,9 @@
             
             moveHorizontally() {
                 this.x += this.speed;
+                if (this.x < 0) {
+                    this.x = 0;
+                }
             }
         }
 
@@ -52,23 +58,56 @@
             new GameCharacter(700, 50, width, width, "rgb(0,0,255)", 4),
         ];
 
-        var player = new GameCharacter(50, 255, width, width, "rgb(0, 255, 243", 0);
+        var player = new GameCharacter(50, 200, width, width, "rgb(0, 255, 243", 0);
+        var goal = new GameCharacter(screenWidth - width, 200, width, 100, "rgb(0, 0, 0)", 0);
+        var sprites = {};
 
-        var goal = new GameCharacter(screenWidth - width, 200, width, 100, "rgb(0, 0, 0)", 2)
+        var loadSprites = function() {
+            sprites.player = new Image();
+            sprites.player.src = 'images/hero.png';
 
+            sprites.brackground = new Image();
+            sprites.brackground.src ='images/floor.png';
+
+            sprites.enemy = new Image();
+            sprites.enemy.src = 'images/enemy.png';
+
+            sprites.goal = new Image();
+            sprites.goal.src = 'images/chest.png';
+        }
+        
         document.onkeydown = function(event) {
             switch(event.key) {
                 case 'ArrowRight':
+                    isRightKeyPressed = true;
                     player.speed = player.maxSpeed;
                     break;
                 case 'ArrowLeft':
+                    isLeftKeyPressed = true;
                     player.speed = -player.maxSpeed;
                     break;
             } 
         };
 
         document.onkeyup = function(event) {
-            player.speed = 0;
+            switch(event.key) {
+                case 'ArrowRight':
+                    isRightKeyPressed = false;
+                    if (isLeftKeyPressed) {
+                        player.speed = -player.maxSpeed; 
+                    } else {
+                        player.speed = 0;
+                    }
+                    break;
+                case 'ArrowLeft':
+                    isLeftKeyPressed = false;
+                    if (isRightKeyPressed) {
+                        player.speed = player.maxSpeed;
+                    } else {
+                        player.speed = 0;
+                    }
+                    break;
+            }
         }
 
         var checkCollisions = function(rect1, rect2) {
@@ -83,22 +122,20 @@
         var draw = function() {
             ctx.clearRect(0, 0, screenWidth, screenHeight);
 
-            ctx.fillStyle = player.color;
-            ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.drawImage(sprites.brackground, 0, 0);
+            ctx.drawImage(sprites.player, player.x, player.y);
+            ctx.drawImage(sprites.goal, goal.x, goal.y);
 
             enemies.forEach(function(element) {
-                ctx.fillStyle = element.color;
-                ctx.fillRect(element.x, element.y, element.width, element.height);
+                ctx.drawImage(sprites.enemy, element.x, element.y);
             });
-
-            ctx.fillStyle = goal.color;
-            ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
         }
 
         var update = function() {
             if (checkCollisions(player, goal)) {
                 endGameLogic("You win!");
             }
+
             player.moveHorizontally();
 
             enemies.forEach(function(element) {
@@ -106,7 +143,7 @@
                     endGameLogic("Game Over!");
                 }
                 element.moveVertically();
-            })        
+            });        
         }
 
         var endGameLogic = function(text) {
@@ -124,6 +161,7 @@
             }
         }
 
+        loadSprites();
         step();
     </script>
 </body>
